@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Artisan } = require("../models/artisan");
+const { Artisan } = require("../models");
 const requireApiKey = require("../middleware/apikey");
 
 // ⭐ ROUTE — Top 3 artisans

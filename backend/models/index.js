@@ -1,10 +1,12 @@
-const Sequelize = require("sequelize");
+// backend/models/index.js
+const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = require("../config/db");
-const ArtisanModel = require("./artisan");
 
-const Artisan = ArtisanModel(sequelize, Sequelize.DataTypes);
+// 🔥 Toujours utiliser le bon nom de fichier (respecter majuscules/minuscules)
+const ArtisanModel = require("./Artisan");
 
-// Si tu veux ajouter d'autres modèles, les initialiser ici
+// Initialisation du modèle
+const Artisan = ArtisanModel(sequelize, DataTypes);
 
 module.exports = {
   sequelize,

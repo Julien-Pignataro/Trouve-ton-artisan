@@ -3,8 +3,6 @@ import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
 import "../styles/artisans.scss";
 
-
-
 export default function Artisans() {
   const [artisans, setArtisans] = useState([]);
   const [search, setSearch] = useState("");
@@ -63,21 +61,15 @@ export default function Artisans() {
         ) : (
           filteredList.map((a) => (
             <Link to={`/artisan/${a.id}`} key={a.id} className="artisan-card">
-              <div className="card-media">
-                <img 
-                 src={a.image || `/img/art-${(a.id % 17) + 1}.svg`} 
-                 alt={a.nom} 
-                />
-              </div>
+              <div className="card-content">
+                <h3>{a.nom}</h3>
+                <p className="spec">{a.specialite}</p>
+                <p className="loc">{a.ville}</p>
 
-             <div className="card-content">
-               <h3>{a.nom}</h3>
-               <p className="spec">{a.specialite}</p>
-               <p className="loc">{a.ville}</p>
-             <div className="stars">
-               {"★".repeat(Math.round(a.note))}
-               {"☆".repeat(5 - Math.round(a.note))}
-               </div>
+                <div className="stars">
+                  {"★".repeat(a.note)}
+                  {"☆".repeat(5 - a.note)}
+                </div>
               </div>
             </Link>
           ))

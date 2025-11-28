@@ -20,7 +20,7 @@ export default function Footer() {
           <p>69269 LYON CEDEX 02</p>
           <p>+33 (0)4 26 73 40 00</p>
         </div>
-
+        
       </div>
 
       <p className="copyright">

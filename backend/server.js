@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const cors = require("cors");
 const rateLimit = require("express-rate-limit");
 const { sequelize } = require("./models");
-const artisanRoutes = require("./routes/artisan");
+const artisanRoutes = require("./routes/artisans");
 
 const app = express();
 
@@ -26,7 +26,7 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Routes
-app.use("/api", require ("./routes/artisan"));
+app.use("/api", require ("./routes/artisans"));
 
 // Healthcheck
 app.get("/health", (req, res) => res.json({ status: "ok" }));

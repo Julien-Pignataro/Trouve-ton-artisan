@@ -23,11 +23,11 @@ export default function FicheArtisan() {
       <div className="top-section">
 
         <div className="left">
-         <img 
-           className="artisan-img"
-           src={artisan.image || `/img/art-${(artisan.id % 17) + 1}.svg`} 
-           alt={artisan.nom}
-         />
+          <img
+            src={artisan.image || "/default-avatar.png"}
+            alt={artisan.nom}
+            className="artisan-img"
+          />
         </div>
 
         <div className="right">

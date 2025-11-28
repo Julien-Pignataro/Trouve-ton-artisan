@@ -1,0 +1,32 @@
+@import "header.scss";
+@import "footer.scss";
+@import "artisan-card.scss";
+@import "./home.scss";
+@import "./artisans.scss";
+@import "./fiche-artisan.scss";
+@import "./footer.scss";
+@import "./notfound.scss";
+
+body {
+  font-family: "Graphik", Arial, sans-serif;
+  background-color: #f6f6f6;
+  margin: 0;
+}
+
+/* Assure que le html et le body prennent toute la hauteur */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* Conteneur principal qui pousse le footer en bas */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 100% de la hauteur de la fenêtre */
+}
+
+/* Le contenu principal prend tout l’espace restant */
+.main-content {
+  flex: 1;
+}

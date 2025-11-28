@@ -1,0 +1,106 @@
+.artisans-page {
+  margin: 60px auto;
+
+  h1 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  /* Barre de recherche */
+  .search-bar {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    margin: 20px 0 30px 0;
+    font-size: 16px;
+
+    &:focus {
+      outline: none;
+      border-color: #0054a6;
+    }
+  }
+
+  /* Catégorie affichée */
+  .category-indicator {
+    margin-bottom: 15px;
+    font-size: 15px;
+    color: #333;
+    text-align: center;
+
+    strong {
+      color: #0054a6;
+    }
+  }
+
+  /* Grille artisans */
+  .artisan-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+
+    .artisan-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: 0.25s;
+      border: 1px solid #eee;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+      }
+
+      h3 {
+        font-size: 20px;
+        font-weight: 700;
+      }
+
+      .spec {
+        color: #0054a6;
+        font-weight: 600;
+        margin-top: 5px;
+      }
+
+      .loc {
+        color: #777;
+        margin: 4px 0 10px 0;
+      }
+
+      .stars {
+        color: #ffc107;
+        font-size: 18px;
+      }
+    }
+  }
+
+  /* Aucun résultat */
+  .empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: #777;
+    font-size: 17px;
+    margin-top: 25px;
+  }
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .artisan-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .artisan-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .search-bar {
+    font-size: 14px;
+  }
+}

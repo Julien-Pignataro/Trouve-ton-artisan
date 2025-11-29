@@ -1,15 +1,22 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import API from "../api";        // ⭐ important : on utilise ton API sécurisée
 import "../styles/home.scss";
 
 export default function Home() {
   const [top, setTop] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/artisans/top3")
-      .then(res => setTop(res.data))
-      .catch(() => console.log("Erreur chargement artisans"));
+    async function load() {
+      try {
+        const res = await API.get("/artisans/top3");   // ⭐ CORRECT
+        setTop(res.data);
+      } catch (err) {
+        console.error("Erreur API TOP3 :", err);
+      }
+    }
+
+    load();
   }, []);
 
   return (
@@ -58,20 +65,24 @@ export default function Home() {
           <h2>Les artisans du mois</h2>
 
           <div className="artisan-grid">
-            {top.map(a => (
-              <Link to={`/artisan/${a.id}`} key={a.id} className="artisan-card">
-                <div className="artisan-img"></div>
-                
-                <h3>{a.nom}</h3>
-                <p className="spec">{a.specialite}</p>
-                <p className="loc">{a.ville}</p>
+            {top.length === 0 ? (
+              <p>Aucun artisan trouvé...</p>
+            ) : (
+              top.map((a) => (
+                <Link to={`/artisan/${a.id}`} key={a.id} className="artisan-card">
+                  <div className="artisan-img"></div>
 
-                <div className="stars">
-                  {"★".repeat(a.note)}
-                  {"☆".repeat(5 - a.note)}
-                </div>
-              </Link>
-            ))}
+                  <h3>{a.nom}</h3>
+                  <p className="spec">{a.specialite}</p>
+                  <p className="loc">{a.ville}</p>
+
+                  <div className="stars">
+                    {"★".repeat(Math.round(a.note))}
+                    {"☆".repeat(5 - Math.round(a.note))}
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
       </section>

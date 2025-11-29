@@ -1,37 +1,44 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Link, useLocation } from "react-router-dom";
+import API from "../api.js";
 import "../styles/artisans.scss";
 
 export default function Artisans() {
   const [artisans, setArtisans] = useState([]);
-  const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const location = useLocation();
 
-  // récupérer ?cat=xxx
+  // Récupération des paramètres d'URL
   const params = new URLSearchParams(location.search);
-  const category = params.get("cat") || null;
+  const q = params.get("q") || "";
+  const categorie = params.get("categorie") || "";
+  const sort = params.get("sort") || "";
 
-  // charger la liste des artisans au chargement de la page
+  // Charger les artisans depuis l’API
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/artisans")
-      .then((res) => setArtisans(res.data))
-      .catch(() => console.log("Erreur chargement artisans"));
-  }, []);
+    async function load() {
+      try {
+        const res = await API.get("/artisans/search", {
+          params: {
+            q: q,
+            categorie: categorie,
+            sort: sort
+          }
+        });
 
-  // filtrage par catégorie
-  const filteredByCategory = category
-    ? artisans.filter(
-        (a) => a.specialite.toLowerCase().includes(category.toLowerCase())
-      )
-    : artisans;
+        setArtisans(res.data);
+      } catch (err) {
+        console.error("Erreur API :", err);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-  // recherche
-  const filteredList = filteredByCategory.filter((a) =>
-    a.nom.toLowerCase().includes(search.toLowerCase())
-  );
+    load();
+  }, [q, categorie, sort]);
+
+  if (loading) return <p>Chargement...</p>;
 
   return (
     <div className="artisans-page container">
@@ -39,27 +46,38 @@ export default function Artisans() {
       <h1>Liste des artisans</h1>
 
       {/* Barre de recherche */}
-      <input
-        type="text"
-        className="search-bar"
-        placeholder="Rechercher un artisan..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <form method="GET">
+        <input
+          type="text"
+          name="q"
+          placeholder="Rechercher..."
+          defaultValue={q}
+          className="search-bar"
+        />
 
-      {/* Catégories affichées si un filtre est actif */}
-      {category && (
-        <p className="category-indicator">
-          Catégorie sélectionnée : <strong>{category}</strong>
-        </p>
-      )}
+        <select name="categorie" defaultValue={categorie}>
+          <option value="">Toutes catégories</option>
+          <option value="Alimentation">Alimentation</option>
+          <option value="Bâtiment">Bâtiment</option>
+          <option value="Fabrication">Fabrication</option>
+          <option value="Services">Services</option>
+        </select>
+
+        <select name="sort" defaultValue={sort}>
+          <option value="">Trier par nom</option>
+          <option value="note_desc">Meilleure note</option>
+          <option value="note_asc">Note la plus basse</option>
+        </select>
+
+        <button className="btn-search">Filtrer</button>
+      </form>
 
       {/* Grille des artisans */}
       <div className="artisan-grid">
-        {filteredList.length === 0 ? (
+        {artisans.length === 0 ? (
           <p className="empty">Aucun artisan trouvé...</p>
         ) : (
-          filteredList.map((a) => (
+          artisans.map((a) => (
             <Link to={`/artisan/${a.id}`} key={a.id} className="artisan-card">
               <div className="card-content">
                 <h3>{a.nom}</h3>
@@ -67,8 +85,8 @@ export default function Artisans() {
                 <p className="loc">{a.ville}</p>
 
                 <div className="stars">
-                  {"★".repeat(a.note)}
-                  {"☆".repeat(5 - a.note)}
+                  {"★".repeat(Math.round(a.note))}
+                  {"☆".repeat(5 - Math.round(a.note))}
                 </div>
               </div>
             </Link>

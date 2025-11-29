@@ -1,68 +1,48 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import API from "../api";
 import "../styles/fiche-artisan.scss";
 
 export default function FicheArtisan() {
   const { id } = useParams();
   const [artisan, setArtisan] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:3001/artisan/${id}`)
-      .then((res) => setArtisan(res.data))
-      .catch(() => console.log("Erreur chargement fiche artisan"));
+    async function fetchArtisan() {
+      try {
+        const res = await API.get(`/artisans/${id}`);
+        setArtisan(res.data);
+      } catch (err) {
+        console.error("Erreur API fiche artisan", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchArtisan();
   }, [id]);
 
-  if (!artisan) return <p className="loading">Chargement...</p>;
+  if (loading) return <p>Chargement...</p>;
+  if (!artisan) return <p>Artisan introuvable</p>;
 
   return (
-    <div className="fiche container">
+    <div className="fiche-artisan container">
+      <h1>{artisan.nom}</h1>
+      <p><strong>Spécialité :</strong> {artisan.specialite}</p>
+      <p><strong>Ville :</strong> {artisan.ville}</p>
+      <p><strong>Note :</strong> {artisan.note} ⭐</p>
+      <p><strong>Description :</strong><br />{artisan.description}</p>
 
-      {/* ===== TITRE + INFOS ===== */}
-      <div className="top-section">
-
-        <div className="left">
-          <img
-            src={artisan.image || "/default-avatar.png"}
-            alt={artisan.nom}
-            className="artisan-img"
-          />
-        </div>
-
-        <div className="right">
-          <h1>{artisan.nom}</h1>
-
-          <p className="spec">{artisan.specialite}</p>
-          <p className="loc">{artisan.ville}</p>
-
-          <div className="stars">
-            {"★".repeat(artisan.note)}
-            {"☆".repeat(5 - artisan.note)}
-          </div>
-        </div>
-
-      </div>
-
-      {/* ===== A PROPOS ===== */}
-      <section className="about">
-        <h2>À propos</h2>
-        <p>{artisan.description || "Aucune description disponible."}</p>
-      </section>
-
-      {/* ===== FORMULAIRE DE CONTACT ===== */}
-      <section className="contact">
-        <h2>Contacter l’artisan</h2>
-
-        <form className="contact-form">
-          <input type="text" placeholder="Votre nom" required />
-          <input type="email" placeholder="Votre email" required />
-          <input type="text" placeholder="Objet" />
-          <textarea rows="6" placeholder="Votre message"></textarea>
-
-          <button type="submit">Envoyer votre message</button>
-        </form>
-      </section>
+      {artisan.email && <p><strong>Email :</strong> {artisan.email}</p>}
+      {artisan.site && (
+        <p>
+          <strong>Site :</strong>{" "}
+          <a href={artisan.site} target="_blank" rel="noreferrer">
+            {artisan.site}
+          </a>
+        </p>
+      )}
     </div>
   );
 }

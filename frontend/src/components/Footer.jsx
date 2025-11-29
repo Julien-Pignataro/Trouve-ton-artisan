@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-grid">
 
-        <div>
+       <div>
           <h4>Liens utiles</h4>
           <p>Mentions légales</p>
           <p>Données personnelles</p>

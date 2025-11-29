@@ -23,7 +23,6 @@ export default function Header() {
           <Link to="/artisans?cat=alimentation">Alimentation</Link>
           <Link to="/artisans">Tous les artisans</Link>
         </nav>
-
       </div>
     </header>
   );

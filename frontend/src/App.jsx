@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+
 function App() {
   return (
     <Router>

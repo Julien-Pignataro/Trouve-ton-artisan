@@ -9,7 +9,7 @@ export default function NotFound() {
       <p className="subtitle">La page que vous recherchez est introuvable.</p>
 
       <img
-        src="/notfound.png"
+        src="../84411880-404-liquid-error-or-page-not-found-design-graphic-template-website-with-white-background.jpg"
         alt="404 illustration"
         className="nf-img"
       />

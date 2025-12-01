@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "../styles/footer.scss";
 
 export default function Footer() {
@@ -5,12 +6,32 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-grid">
 
-       <div>
+        <div>
           <h4>Liens utiles</h4>
-          <p>Mentions légales</p>
-          <p>Données personnelles</p>
-          <p>Accessibilité</p>
-          <p>Cookies</p>
+
+          <p>
+            <Link to="/mentions-legales" className="footer-link">
+              Mentions légales
+            </Link>
+          </p>
+
+          <p>
+            <Link to="/donnees-personnelles" className="footer-link">
+              Données personnelles
+            </Link>
+          </p>
+
+          <p>
+            <Link to="/accessibilite" className="footer-link">
+              Accessibilité
+            </Link>
+          </p>
+
+          <p>
+            <Link to="/cookies" className="footer-link">
+              Cookies
+            </Link>
+          </p>
         </div>
 
         <div>
@@ -20,7 +41,6 @@ export default function Footer() {
           <p>69269 LYON CEDEX 02</p>
           <p>+33 (0)4 26 73 40 00</p>
         </div>
-        
       </div>
 
       <p className="copyright">
